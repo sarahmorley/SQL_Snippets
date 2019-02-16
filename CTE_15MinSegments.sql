@@ -1,0 +1,13 @@
+DECLARE @startDate DATETIME = DATEADD(DAY, -1, GETUTCDATE())
+DECLARE @endDate DATETIME = GETUTCDATE()
+
+;WITH SEGMENT_CTE
+AS (SELECT 0 as id,
+			@startDate as interval
+UNION ALL
+SELECT id + 1,
+		DATEADD(mi, 15, interval)
+FROM SEGMENT_CTE
+WHERE interval <= @endDate)
+
+SELECT * from SEGMENT_CTE
